@@ -56,3 +56,77 @@ be carried over to the Object Model
 - Relational Databases are very efficient at what they do
 - SQL is a very powerful language
 - If you are performing batch operations on 10’s of thousands of records, you should consider using SQL/JDBC
+
+### Repository
+```
+//JpaRepository<ENTITY_CLASS, ID_TYPE>
+public interface BookRepository extends JpaRepository<Book, Long> {
+}
+```
+
+### SQL Logging
+
+```properties
+spring.jpa.show-sql=true
+
+#Show SQL
+spring.jpa.properties.hibernate.show_sql=true
+
+#Format SQL
+spring.jpa.properties.hibernate.format_sql=true
+
+#Show bind values
+logging.level.org.hibernate.type.descriptor.sql=trace
+
+
+``` 
+
+### Loading data on start
+```java
+@Component
+public class DataInitializer implements CommandLineRunner {
+    public final BookRepository bookRepository;
+
+    public DataInitializer(BookRepository bookRepository) {
+        this.bookRepository = bookRepository;
+    }
+    @Override
+    public void run(String... args) throws Exception {
+        Book bookDDD = new Book("domain Driven Design", "123", "RandomHouse");
+
+        System.out.println("Id: " + bookDDD.getId());
+
+        Book savedDDD = bookRepository.save(bookDDD);
+
+        System.out.println("Id: " + bookDDD.getId());
+
+        Book bookSIA = new Book("Spring In Action", "234234", "Oriely");
+        Book savedSIA = bookRepository.save(bookSIA);
+
+        bookRepository.findAll().forEach(book -> {
+            System.out.println("Book Id: " + book.getId());
+            System.out.println("Book Title: " + book.getTitle());
+        });
+    }
+}
+
+```
+
+
+
+### H2 Database Console
+- Enabling
+```
+spring.h2.console.enabled=true
+```
+- Copy connection path from the console 
+
+```
+2024-09-19T18:00:50.529+02:00  INFO 3816 --- [           main] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:h2:mem:f2ce4a26-c046-4b92-b998-5009634bdc9a'
+```
+- Open a browser: **http://localhost:8080/h2-console/login.jsp** and use in **JDBC URL** field
+```
+jdbc:h2:mem:f2ce4a26-c046-4b92-b998-5009634bdc9a
+
+```
+## Intro to MySQL
