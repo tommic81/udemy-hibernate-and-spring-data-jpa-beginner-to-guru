@@ -129,3 +129,109 @@ spring.h2.console.enabled=true
 jdbc:h2:mem:f2ce4a26-c046-4b92-b998-5009634bdc9a
 
 ```
+## Intro to MySQL
+### Relational Database Principles 
+#### Keys
+- A Primary Key is an optional special database column or columns used to identify a database record.
+ - Unique - There can be only one!
+- A Surrogate Key is a type of Primary Key which used a unique generated value.
+  - Should have no business value, and should never change.
+  - Typically a system generated self incrementing number. Can be a unique string (UUID).
+  - Considered a best practice in Relational Database Design.
+  - This will typically map to the @Id value of your entity
+- A Natural Key is a type of Primary Key which uses one or more data columns
+  - Is not a best practice because tied to business data, which can change
+  - Few reasons to use natural keys, one is a ‘codes’ table for configuration values
+  
+#### Database Table Relations
+- Defined through Foreign Key Constraints in conjunction with Primary Keys.
+- Types of Relations:
+  - One to One - Record in Table A matches exactly one record in Table B
+  - One to Many - Record in Table A matches many in Table B, but Table B matches only one record
+in Table A. (Think - An Order with multiple items)
+  - Many to Many - Record in Table A matches many in Table B, and Table B matches many records in Table A.
+#### Database Constraints
+- Not Null - Column is not allowed to have null values
+- Unique - Column value must be unique
+- Primary Key - Identifier of row, combines Not Null and Unique
+- Foreign Key - Value must exist in referenced (foreign) table aka, referential integrity
+- Check Constraint - Sets condition on data - like min max, or list of values (ENUM)
+#### Database Transactions
+- A database transaction is a series of one or more DML statements
+- A transaction has a begin and an end
+- Committing will make the data changes permanent
+- A rollback will revert the changed data to the original state
+#### ACID
+- Atomicity - all or nothing. All statements must be able to complete.
+- Consistency - transactions are valid to rules of the DB. Changes do not violate constraints.
+- Isolation - Results of transactions are as if they are done end to end.Reads inside the transaction ‘see’ changed data. Reads outside transaction ‘see’ original data (until commit).
+- Durability - Once a transaction is committed, it remains so. Once committed, changes are permanent.
+#### Preventing Lost Updates
+- Locking is one technique which can be used to prevent lost updates
+- Pessimistic Locking uses a database lock to prevent inflight transactions and will allow transactions to complete sequentially. ie - Select for update, will wait for an exclusive lock
+- Optimistic Locking - Uses a version property which is checked in the update
+- Examples of both will be explored later in the course!
+
+### Relational Database Management System
+- DBMS’s have 4 important characteristics:
+  - Data Definition - define the data being tracked
+  - Data Manipulation - add, update or remove data
+  - Data Retrieval - extract and report on the data in the database
+  - Administration - defining users on the system, security, monitoring, system administration
+  
+#### SQL & Langauge Support
+- RDBMS - All support ANSI SQL
+- Also support their own version of SQL
+- May support their own language for stored procedures and triggers
+  -  This will vary by platform
+  
+####  Data Definition
+- DDL - Data Definition Language (ie CREATE TABLE…) is used to define the relational model
+- Under the covers, the RDBMS will store data about your tables in catalog tables
+
+#### Data Manipulation
+- DML - Data Manipulation Language
+- Allows you to add (INSERT), change (UPDATE), or remove (DELETE) data.
+- The RDBMS enforces data manipulation adheres to the rules of the Data Definition.
+- The RDBMS allows set up ‘rules’ for multi-user systems.
+- These rules manage what happens in competing conditions. (what happens when two users
+want to update the same data, at the same time)
+- Enforces Data Integrity - What happens when things go wrong
+
+#### Data Retrieval
+- Data Retrieval is the act of pulling data out of the database
+- The RDBMS determines the optimal way to retrieve data out of the database.
+- Multi-table joins can become very complex.
+- The RDBMS also considers what happens when updates occur while your report is running.
+
+#### Administration
+- Users - RDBMS define user accounts
+- User accounts have security roles which control what individual users can see, update, delete, etc
+- RDBMS have tools to see performance metrics which can be used to identify costly operations
+- System Administration Includes:
+  - Defining users
+  - Where the database stores its data on the computer system
+  - Backups and Auditing
+  
+#### How Data is Stored
+- RDBMS - Control how data is stored to disk
+- Can be a few files
+- Can be very VERY complex spread across multiple drives or network devices
+- This becomes more important on larger database systems
+
+#### Administration Best Practices
+- Use a schema for your application
+- Do not use a ‘super user’ account for your application user
+- Apply the principle of minimal authorities
+- Account used by application often called a ‘service account’
+- Service account should only have CRUD access
+- Service account should not be able to perform DDL operations
+  - Prevents malicious acts via SQL Injection attacks
+  
+### Data mapping SQL to Java
+- [SQL Data Types](https://www.digitalocean.com/community/tutorials/sql-data-types)
+- [MySQL Data Types](https://dev.mysql.com/doc/refman/8.0/en/data-types.html)
+- [Hibernate Basic Types](https://docs.jboss.org/hibernate/orm/5.0/mappingGuide/en-US/html/ch03.html)
+### MySQL Installation
+- [MySQL Installation Guide](https://dev.mysql.com/doc/mysql-installation-excerpt/8.0/en/)
+- [MySQL Workbench](https://dev.mysql.com/doc/workbench/en/wb-installing.html)
