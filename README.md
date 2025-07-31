@@ -236,3 +236,23 @@ want to update the same data, at the same time)
 - [MySQL Installation Guide](https://dev.mysql.com/doc/mysql-installation-excerpt/8.0/en/)
 - [MySQL Workbench](https://dev.mysql.com/doc/workbench/en/wb-installing.html)
 - [DBeaver](https://dbeaver.io/)
+
+## Introduction to testing with Spring Boot
+- `@DataJpaTest` - brings a minimal context for testing JPA
+- Ordering test execution
+```
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@DataJpaTest
+public class SpringBootJpaTestSlice {
+
+  @Order(1)
+  @Test
+  void testJpaTestSplice(){}
+    
+  @Order(2)
+  @Test
+  void testJpaTestSpliceSecond(){}
+
+}
+```
+- The tests methods normally rollback the changes. We can  turn it off with the annotations: `@Rollback(value = false)` or `@Commit`
