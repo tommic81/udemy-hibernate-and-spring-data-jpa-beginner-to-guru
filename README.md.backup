@@ -255,4 +255,35 @@ public class SpringBootJpaTestSlice {
 
 }
 ```
-- Test methods normally rollback the changes. We can  turn it off with the annotations: `@Rollback(value = false)` or `@Commit`
+- The tests methods normally rollback the changes. We can  turn it off with the annotations: `@Rollback(value = false)` or `@Commit`
+
+## Hibernate with MySQL
+### Hibernate Update modes
+#### Hibernate DDL Schema Generation Tool
+- Hibernate Schema Generation Tool - aka - hbm2ddl.auto configuration property
+- Hibernate can:
+  - Create DDL statements to file
+  - Execute DDL statements to create or update database tables
+#### HBM DDL Auto Properties
+- none - Disables schema generation tool
+- create-only - Create database schema from JPA Entities
+- drop - drops database tables related to JPA Entities
+- create - drops database schema and re-creates from JPA Entities
+- create-drop - drops database schema and re-creates from JPA Entities, then will drop when shutting down
+- validate - Validates schema, fatal error if wrong
+- update - updates schema from JPA Entities
+#### How it Works
+- Hibernate Schema Generation Tool uses reflection on JPA Entities to determine database structure
+- Table names and column names inferred from type and property names
+  - Default is camel case to snake case
+  - productDescription -> PRODUCT_DESCRIPTION
+  - Datatypes are also defaulted
+  - If JPA mappings are present, they will be used (You can set table names, column names, types, etc in JPA)
+#### Which Mode to Use
+- Hibernate Schema Generation Tool is great to use for rapid development
+- NOT recommended for production databases
+- For production databases use validate or none
+  - Validate is a good option since startup will fail if database schema is wrong
+  - Without errors could occur at run time
+  
+### MySQL Spring Boot Configuration
