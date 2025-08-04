@@ -287,3 +287,25 @@ public class SpringBootJpaTestSlice {
   - Without errors could occur at run time
   
 ### MySQL Spring Boot Configuration
+```xml
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+        </dependency>
+```
+- application-local.properties
+```
+spring.datasource.username=bookadmin
+spring.datasource.password=password
+spring.datasource.url=jdbc:mysql://127.0.0.1:3306/bookdb?userUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
+spring.jpa.database=mysql
+spring.jpa.hibernate.ddl-auto=update
+```
+
+### Integration test fo

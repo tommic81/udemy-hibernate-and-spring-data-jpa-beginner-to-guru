@@ -299,3 +299,30 @@ public class SpringBootJpaTestSlice {
             <artifactId>mysql-connector-java</artifactId>
         </dependency>
 ```
+- application-local.properties
+```properties
+spring.datasource.username=bookadmin
+spring.datasource.password=password
+spring.datasource.url=jdbc:mysql://127.0.0.1:3306/bookdb?userUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
+spring.jpa.database=mysql
+spring.jpa.hibernate.ddl-auto=update
+```
+
+### Integration test for MySQL
+```java
+@ActiveProfiles("local")
+@DataJpaTest
+@ComponentScan(basePackages = {"guru.springframework.sdjpaintro.bootstrap"})
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)//turn off default h2
+public class MySQLIntegrationTest {
+
+    @Autowired
+    BookRepository bookRepository;
+
+    @Test
+    void testMySQL() {
+        long countBefore = bookRepository.count();
+        assertThat(countBefore).isEqualTo(2);
+    }
+}
+```
