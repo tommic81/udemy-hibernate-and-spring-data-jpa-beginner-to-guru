@@ -373,3 +373,21 @@ spring.sql.init.mode=always
         </profile>
     </profiles>
 ```
+## Using Liquibase
+- Liquibase Terminology
+  - ChangeSet - A set of changes to be applied to the database
+  - Change - A single change to be applied to the database
+  - Changelog - A file which has a list of changeSet’s to be applied
+  - Preconditions - Conditions which control the execution
+  - Context - An expression to help control if the script should or should not run
+  - ChangeLog Parameters - Placeholders which can be replaced at run time
+  
+- Liquibase Best Practices
+  - Organizing Change Logs - Create a master change log to organize Change Sets
+  - One Change Per Change Set - Allows for easier rollback if there is a failure
+  - Never Modify a Change Set - Changes should be additive
+  - Use Meaningful Change Set Ids - some use a sequence number, others use a descriptive name
+- Running Liquibase
+  - Command Line (CLI) - CLI available for Windows, MacOS, and Linux
+  - Maven / Gradle Plugins
+  - Spring Boot - Will run Liquibase on startup to update configured database to latest changeset.
