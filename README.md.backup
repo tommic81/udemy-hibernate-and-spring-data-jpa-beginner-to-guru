@@ -326,7 +326,7 @@ public class MySQLIntegrationTest {
     }
 }
 ```
-### Schema initialization
+### Schema initialization with Hibernate
 - schema.sql
 ```sql
 drop table if exists book;
@@ -350,4 +350,11 @@ insert into book_seq values ( 1 );
 ```
 spring.jpa.hibernate.ddl-auto=validate
 spring.jpa.defer-datasource-initialization=false
+```
+### Schema initialization with MySQL
+- Changes in application-local.properties
+```
+spring.jpa.hibernate.ddl-auto=validate
+
+spring.sql.init.mode=always
 ```
