@@ -358,3 +358,18 @@ spring.jpa.hibernate.ddl-auto=validate
 
 spring.sql.init.mode=always
 ```
+### Using H2 for Spring Boot application
+- pom.xml
+```
+    <profiles>
+        <profile>
+            <id>h2</id>
+            <dependencies>
+                <dependency>
+                    <groupId>com.h2database</groupId>
+                    <artifactId>h2</artifactId>
+                </dependency>
+            </dependencies>
+        </profile>
+    </profiles>
+```
