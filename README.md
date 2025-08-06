@@ -391,3 +391,32 @@ spring.sql.init.mode=always
   - Command Line (CLI) - CLI available for Windows, MacOS, and Linux
   - Maven / Gradle Plugins
   - Spring Boot - Will run Liquibase on startup to update configured database to latest changeset.
+  
+### Liquibase Maven Plugin
+- [Liquibase Maven Docs](https://docs.liquibase.com/tools-integrations/maven/home.html)
+
+### Generate Changeset from Database
+```xml
+            <plugin>
+                <groupId>org.liquibase</groupId>
+                <artifactId>liquibase-maven-plugin</artifactId>
+                <version>4.2.2</version>
+                <configuration>
+                    <url>jdbc:mysql://127.0.0.1:3306/bookdb?useUnicode=true&amp;characterEncoding=UTF-8&amp;serverTimezone=UTC</url>
+                    <username>bookadmin</username>
+                    <password>password</password>
+                    <outputChangeLogFile>changelog.xml</outputChangeLogFile>
+                    <changeSetAuthor>JT</changeSetAuthor>
+                    <changelogSchemaName>bookdb</changelogSchemaName>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>mysql</groupId>
+                        <artifactId>mysql-connector-java</artifactId>
+                        <version>${mysql.version}</version>
+                    </dependency>
+                </dependencies>
+            </plugin>           
+```
+### Organizing Change Logs
+- [Best Practices](https://docs.liquibase.com/concepts/bestpractices.html)
