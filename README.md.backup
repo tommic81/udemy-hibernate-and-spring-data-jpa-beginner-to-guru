@@ -419,3 +419,6 @@ spring.sql.init.mode=always
             </plugin>           
 ```
 ### Organizing Change Logs
+- [Best Practices](https://docs.liquibase.com/concepts/bestpractices.html)
+
+### Spring Boot Configuration
