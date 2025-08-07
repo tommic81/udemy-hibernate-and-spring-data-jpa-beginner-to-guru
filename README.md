@@ -423,3 +423,5 @@ spring.sql.init.mode=always
 
 ### Spring Boot Configuration
 - [Using Liquibase with Spring Boot](https://contribute.liquibase.com/extensions-integrations/directory/integration-docs/springboot/)
+
+### Initializing Data with Spring
