@@ -1,0 +1,8 @@
+package guru.springframework.sdjpaintro.repositories;
+
+import guru.springframework.sdjpaintro.domain.Author;
+import guru.springframework.sdjpaintro.domain.Book;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface AuthorRepository extends JpaRepository<Author, Long> {
+}

@@ -1,6 +1,8 @@
 package guru.springframework.sdjpaintro.bootstrap;
 
+import guru.springframework.sdjpaintro.domain.Author;
 import guru.springframework.sdjpaintro.domain.Book;
+import guru.springframework.sdjpaintro.repositories.AuthorRepository;
 import guru.springframework.sdjpaintro.repositories.BookRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
@@ -11,8 +13,11 @@ import org.springframework.stereotype.Component;
 public class DataInitializer implements CommandLineRunner {
     public final BookRepository bookRepository;
 
-    public DataInitializer(BookRepository bookRepository) {
+    public final AuthorRepository authorRepository;
+
+    public DataInitializer(BookRepository bookRepository, AuthorRepository authorRepository) {
         this.bookRepository = bookRepository;
+        this.authorRepository = authorRepository;
     }
     @Override
     public void run(String... args) throws Exception {
@@ -28,6 +33,9 @@ public class DataInitializer implements CommandLineRunner {
 
         Book bookSIA = new Book("Spring In Action", "234234", "Oriely");
         Book savedSIA = bookRepository.save(bookSIA);
+
+        Author author = new Author("Howard", "Lovecraft");
+        authorRepository.save(author);
 
         bookRepository.findAll().forEach(book -> {
             System.out.println("Book Id: " + book.getId());
