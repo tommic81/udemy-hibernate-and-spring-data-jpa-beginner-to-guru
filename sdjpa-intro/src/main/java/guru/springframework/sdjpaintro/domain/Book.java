@@ -14,14 +14,18 @@ public class Book {
     private Long id;
     private String title;
     private String isbn;
+    private Long authorId;
+
+    private String publisher;
 
     public Book() {
     }
 
-    public Book(String title, String isbn, String publisher) {
+    public Book(String title, String isbn, String publisher, Long authorId) {
         this.title = title;
         this.isbn = isbn;
         this.publisher = publisher;
+        this.authorId = authorId;
     }
 
     @Override
@@ -71,5 +75,12 @@ public class Book {
         this.publisher = publisher;
     }
 
-    private String publisher;
+
+    public Long getAuthorId() {
+        return authorId;
+    }
+
+    public void setAuthorId(Long authorId) {
+        this.authorId = authorId;
+    }
 }
