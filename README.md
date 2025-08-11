@@ -448,3 +448,34 @@ spring.sql.init.mode=always
     </changeSet>
 </databaseChangeLog>
 ```
+## Using Flyway
+### Liquibase vs Flyway
+- Liquibase and Flyway are very similar in terms of functionality
+- Share same concepts, slightly different terminology
+- Liquibase supports change scrips in SQL, XML, YAML, and JSON
+  - XML, YAML and JSON abstract SQL, which may be beneficial for different DB technologies
+- Flyway supports SQL and Java only
+- Liquibase is a larger and more robust product
+- Flyway seems to have more popularity
+- Both are mature and widely used
+
+### Which to Use?
+- Liquibase is probably a better solution for large enterprises with complex environments
+- Flyway is good for 90% of applications which don’t need the additional capabilities
+- Recommendation:
+  - If one or the other is being used in the organization, use it
+  - If in doubt, do your own research on each option
+  - John’s preference is Flyway - simple and easy to use
+### Flyway Commands
+- Migrate - Migrate to latest version
+- Clean - Drops all database objects - NOT FOR PRODUCTION USE
+- Info - Prints info about migrations
+- Validate - Validates applied migrations against available
+- Undo - Reverts most recently applied migration
+- Baseline - Baselines an existing database
+- Repair - Used to fix problems with schema history table
+
+### Running Flyway
+- Command Line (CLI) - CLI available for Windows, MacOS, and Linux
+- Maven / Gradle Plugins
+- Spring Boot - Will run Flyway on startup to update configured database to latest changeset.
