@@ -475,3 +475,44 @@ spring.sql.init.mode=always
 - Baseline - Baselines an existing database
 - Repair - Used to fix problems with schema history table
 
+### Running Flyway
+- Command Line (CLI) - CLI available for Windows, MacOS, and Linux
+- Maven / Gradle Plugins
+- Spring Boot - Will run Flyway on startup to update configured database to latest changeset.
+
+### Spring Boot Configuration
+- pom.xml
+```
+<dependency>
+	<groupId>org.flywaydb</groupId>
+    <artifactId>flyway-core</artifactId>
+</dependency>
+<dependency>
+    <groupId>org.flywaydb</groupId>
+    <artifactId>flyway-mysql</artifactId>
+</dependency>
+```
+- V1__init_database.sql
+```
+drop table if exists book;
+drop table if exists book_seq;
+
+create table book (
+                      id bigint not null,
+                      isbn varchar(255),
+                      publisher varchar(255),
+                      title varchar(255),
+                      primary key (id)
+) engine=InnoDB;
+
+create table book_seq (
+                          next_val bigint
+) engine=InnoDB;
+
+insert into book_seq values ( 1 );
+```
+- application-local.properties
+```
+spring.flyway.user=bookadmin
+spring.flyway.password=password
+```
