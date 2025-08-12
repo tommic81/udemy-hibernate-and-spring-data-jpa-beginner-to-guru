@@ -521,3 +521,26 @@ spring.flyway.password=password
 ```sql
 alter table book ADD author_id BIGINT;
 ```
+### Clean and Rebuild with Flyway (for Dev env)
+- Bean
+```
+/**Cleaning the Database only on DEV!!!
+ * /
+@Profile("clean")
+@Configuration
+public class DbClean {
+
+    @Bean
+    public FlywayMigrationStrategy clean(){
+        return flyway -> {
+            flyway.clean();
+            flyway.migrate();
+        };
+    }
+}
+
+```
+- application-clean.properties
+```
+spring.flyway.clean-disabled=true
+```
