@@ -516,3 +516,8 @@ insert into book_seq values ( 1 );
 spring.flyway.user=bookadmin
 spring.flyway.password=password
 ```
+### Alter Table with Flyway
+- V3__add_author_id_to_book.sql
+```sql
+alter table book ADD author_id BIGINT;
+```

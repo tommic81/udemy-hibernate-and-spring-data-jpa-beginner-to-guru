@@ -482,7 +482,7 @@ spring.sql.init.mode=always
 
 ### Spring Boot Configuration
 - pom.xml
-```
+```xml
 <dependency>
 	<groupId>org.flywaydb</groupId>
     <artifactId>flyway-core</artifactId>
@@ -493,7 +493,7 @@ spring.sql.init.mode=always
 </dependency>
 ```
 - V1__init_database.sql
-```
+```sql
 drop table if exists book;
 drop table if exists book_seq;
 
@@ -512,7 +512,11 @@ create table book_seq (
 insert into book_seq values ( 1 );
 ```
 - application-local.properties
-```
+```properties
 spring.flyway.user=bookadmin
 spring.flyway.password=password
+```
+### Alter Table with Flyway
+- V3__add_author_id_to_book.sql
+```
 ```
