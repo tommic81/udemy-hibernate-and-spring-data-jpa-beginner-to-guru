@@ -544,3 +544,35 @@ public class DbClean {
 ```
 spring.flyway.clean-disabled=true
 ```
+## Hibernate Primary Keys
+### Overview
+- Numeric Primary Keys
+  - GenerationType.AUTO - Let Hibernate Pick - best practice is to specify
+  - GenerationType.SEQUENCE - Use database sequence (Not a feature of MySQL)
+  - GenerationType.IDENTITY - Use auto-incremented database columns
+  - GenerationType.TABLE - Use database table to simulate sequence
+  
+- UUID Primary Keys
+UUID (you-id) - Universally Unique Identifier, a unique 128 bit value
+  - Common to use as primary key, can help index performance
+  - Downside is it uses more disk space
+  - IETF RFC 4122 - an international standard for UUID generation
+  - Hibernate by default implements a custom generator
+  - Hibernate can be configured to generate a IETF RFC 4122 compliant UUID
+  
+- Natural Primary Keys
+  - A unique value with business meaning outside of the database
+  - A UPC or ISBN could be considered a natural key, since both are expected to be unique
+  - Common in old legacy databases
+  - NOT considered best practice
+  
+- Composite Primary Keys
+  - Two values with business meaning combined to make a unique value
+  - Not considered best practice
+  - Also common in legacy databases
+  
+- Which to Use
+  - Small Table - ie, few million rows - favor number (Integer or Long)
+  - Large Table - ie, 10’s of millions or billions - favor UUID (if disk space allows)
+  - Generally avoid using natural or composite keys
+  - Fine in edge cases, like a small code lookup table
