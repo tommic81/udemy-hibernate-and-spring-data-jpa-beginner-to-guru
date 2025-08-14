@@ -576,3 +576,5 @@ UUID (you-id) - Universally Unique Identifier, a unique 128 bit value
   - Large Table - ie, 10’s of millions or billions - favor UUID (if disk space allows)
   - Generally avoid using natural or composite keys
   - Fine in edge cases, like a small code lookup table
+  
+### Auto Incremented Primary Key

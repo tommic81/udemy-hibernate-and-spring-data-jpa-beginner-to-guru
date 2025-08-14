@@ -578,3 +578,8 @@ UUID (you-id) - Universally Unique Identifier, a unique 128 bit value
   - Fine in edge cases, like a small code lookup table
   
 ### Auto Incremented Primary Key
+- V4__autoincrement_pk.sql
+```
+alter table book MODIFY id  BIGINT AUTO_INCREMENT;
+alter table author MODIFY id BIGINT AUTO_INCREMENT;
+```
