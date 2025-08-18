@@ -589,3 +589,6 @@ alter table author MODIFY id BIGINT AUTO_INCREMENT;
 ```
 spring.flyway.locations=classpath:db/migration/common,classpath:db/migration/{vendor}
 ```
+### UUID Primary Key
+- UUID stored as varchar
+```
