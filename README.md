@@ -583,3 +583,9 @@ UUID (you-id) - Universally Unique Identifier, a unique 128 bit value
 alter table book MODIFY id  BIGINT AUTO_INCREMENT;
 alter table author MODIFY id BIGINT AUTO_INCREMENT;
 ```
+### Vendor Specific Flyway Migrations
+- Create a subdirectory for vendor specific scripts. Standard scripts go to **common** directory.
+- application.properties:
+```
+spring.flyway.locations=classpath:db/migration/common,classpath:db/migration/{vendor}
+```
