@@ -589,3 +589,17 @@ alter table author MODIFY id BIGINT AUTO_INCREMENT;
 ```
 spring.flyway.locations=classpath:db/migration/common,classpath:db/migration/{vendor}
 ```
+### UUID Primary Key
+- UUID stored as varchar
+```
+@Entity
+public class AuthorUuid {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @JdbcTypeCode(value = Types.VARCHAR)
+    @Column(length = 36, columnDefinition = "varchar(36)", updatable = false, nullable = false)
+    private UUID id;
+    
+}
+```
+### UUID RFC 4122 Primary Key

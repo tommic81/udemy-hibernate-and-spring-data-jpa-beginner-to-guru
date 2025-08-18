@@ -592,3 +592,26 @@ spring.flyway.locations=classpath:db/migration/common,classpath:db/migration/{ve
 ### UUID Primary Key
 - UUID stored as varchar
 ```
+@Entity
+public class AuthorUuid {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @JdbcTypeCode(value = Types.VARCHAR)
+    @Column(length = 36, columnDefinition = "varchar(36)", updatable = false, nullable = false)
+    private UUID id;
+    
+}
+```
+### UUID RFC 4122 Primary Key
+- UUID stored as Binary
+```
+@Entity
+public class BookUuid {
+
+    @Id
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")
+    @Column(columnDefinition = "BINARY(16)", updatable = false, nullable = false)
+    private UUID id;
+}
+```
