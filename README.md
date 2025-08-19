@@ -615,3 +615,13 @@ public class BookUuid {
     private UUID id;
 }
 ```
+### Natural Primary Key
+```
+@Entity
+public class BookNatural {
+    @Id
+    private String title;
+    private String isbn;
+    private String publisher;
+}
+```
