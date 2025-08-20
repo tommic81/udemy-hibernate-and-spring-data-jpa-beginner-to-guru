@@ -645,3 +645,16 @@ public class NameId implements Serializable {
     
 }    
 ```
+### Embedded Composite Primary Key
+```
+@Embeddable
+public class NameId implements Serializable {
+    private String firstName;
+    private String lastName;
+
+    public NameId() {
+    }
+}
+
+
+```

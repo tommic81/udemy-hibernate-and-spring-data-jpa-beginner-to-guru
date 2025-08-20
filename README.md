@@ -645,3 +645,26 @@ public class NameId implements Serializable {
     
 }    
 ```
+### Embedded Composite Primary Key
+```
+@Embeddable
+public class NameId implements Serializable {
+    private String firstName;
+    private String lastName;
+
+    public NameId() {
+    }
+}
+
+@Entity
+@Table(name = "author_composite")
+public class AuthorEmbedded {
+    @EmbeddedId
+    private NameId nameId;
+
+    private String country;
+
+    public AuthorEmbedded() {
+    }
+}
+```

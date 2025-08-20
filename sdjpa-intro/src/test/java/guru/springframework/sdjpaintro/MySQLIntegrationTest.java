@@ -4,6 +4,7 @@ import guru.springframework.sdjpaintro.domain.AuthorUuid;
 import guru.springframework.sdjpaintro.domain.BookNatural;
 import guru.springframework.sdjpaintro.domain.BookUuid;
 import guru.springframework.sdjpaintro.domain.composite.AuthorComposite;
+import guru.springframework.sdjpaintro.domain.composite.AuthorEmbedded;
 import guru.springframework.sdjpaintro.domain.composite.NameId;
 import guru.springframework.sdjpaintro.repositories.*;
 import org.junit.jupiter.api.Test;
@@ -36,6 +37,21 @@ public class MySQLIntegrationTest {
     @Autowired
     AuthorCompositeRepository authorCompositeRepository;
 
+    @Autowired
+    AuthorEmbeddedRepository authorEmbeddedRepository;
+
+    @Test
+    void authorEmbeddedTest() {
+        NameId nameId = new NameId("John", "T");
+        AuthorEmbedded authorEmbedded = new AuthorEmbedded(nameId);
+
+        AuthorEmbedded saved = authorEmbeddedRepository.save(authorEmbedded);
+        assertThat(saved).isNotNull();
+
+        AuthorEmbedded fetched = authorEmbeddedRepository.getById(nameId);
+        assertThat(fetched).isNotNull();
+    }
+
     @Test
     void authorCompositeTest() {
         NameId nameId = new NameId("John", "T");
@@ -50,6 +66,7 @@ public class MySQLIntegrationTest {
         AuthorComposite fetched = authorCompositeRepository.getById(nameId);
         assertThat(fetched).isNotNull();
     }
+
     @Test
     void bookNaturalTest() {
         BookNatural bookNatural = new BookNatural();
@@ -59,6 +76,7 @@ public class MySQLIntegrationTest {
         BookNatural fetched = bookNaturalRepository.getById(saved.getTitle());
         assertThat(fetched).isNotNull();
     }
+
     @Test
     void testBookUuid() {
         BookUuid bookUuid = bookUuidRepository.save(new BookUuid());
@@ -68,6 +86,7 @@ public class MySQLIntegrationTest {
         BookUuid fetched = bookUuidRepository.getById(bookUuid.getId());
         assertThat(fetched).isNotNull();
     }
+
     @Test
     void testAuthorUuid() {
         AuthorUuid authorUuid = authorUuidRepository.save(new AuthorUuid());
@@ -77,6 +96,7 @@ public class MySQLIntegrationTest {
         AuthorUuid fetched = authorUuidRepository.getById(authorUuid.getId());
         assertThat(fetched).isNotNull();
     }
+
     @Test
     void testMySQL() {
         long countBefore = bookRepository.count();
