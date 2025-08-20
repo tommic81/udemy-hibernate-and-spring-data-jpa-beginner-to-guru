@@ -625,3 +625,23 @@ public class BookNatural {
     private String publisher;
 }
 ```
+### Composite Primary Key
+```
+@Entity
+@IdClass(NameId.class)
+public class AuthorComposite {
+    @Id
+    private String firstName;
+
+    @Id
+    private String lastName;
+    private String country;
+}
+
+
+public class NameId implements Serializable {
+    private String firstName;
+    private String lastName;
+    
+}    
+```
