@@ -668,3 +668,4 @@ public class AuthorEmbedded {
     }
 }
 ```
+## DAO Pattern with JDBC

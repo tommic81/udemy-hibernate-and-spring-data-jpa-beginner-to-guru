@@ -656,5 +656,15 @@ public class NameId implements Serializable {
     }
 }
 
+@Entity
+@Table(name = "author_composite")
+public class AuthorEmbedded {
+    @EmbeddedId
+    private NameId nameId;
 
+    private String country;
+
+    public AuthorEmbedded() {
+    }
+}
 ```
