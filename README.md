@@ -698,3 +698,4 @@ public class AuthorDaoImpl implements AuthorDao{
     }
 }
 ```
+### Implement Get Author By Id
