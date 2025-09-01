@@ -687,3 +687,14 @@ public class AuthorEmbedded {
 - Database Connection - Typically with JDBC you need to create and manage the database connection
 - Spring Boot will auto configure the database connection for us
 - Database connection components are available as Spring Beans in the Spring Context
+
+### Create Author DAO
+```
+@Component
+public class AuthorDaoImpl implements AuthorDao{
+    @Override
+    public Author getById(Long id) {
+        return null;
+    }
+}
+```
