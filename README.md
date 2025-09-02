@@ -748,3 +748,9 @@ public class AuthorDaoImpl implements AuthorDao{
             }
         }
 ```
+### Using Prepared Statements
+```
+ps = connection.prepareStatement("SELECT * FROM author where id = ?");
+            ps.setLong(1, id);
+            resultSet = ps.executeQuery();
+```
