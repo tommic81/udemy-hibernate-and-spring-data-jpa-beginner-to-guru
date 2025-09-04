@@ -754,3 +754,41 @@ ps = connection.prepareStatement("SELECT * FROM author where id = ?");
             ps.setLong(1, id);
             resultSet = ps.executeQuery();
 ```
+### Save New Author
+```java
+    @Override
+    public Author saveNewAuthor(Author author) {
+        Connection connection = null;
+        PreparedStatement ps = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = source.getConnection();
+            ps = connection.prepareStatement("INSERT INTO author (first_name, last_name) values (?, ?)");
+            ps.setString(1, author.getFirstName());
+            ps.setString(2, author.getLastName());
+            ps.execute();
+
+            Statement statement = connection.createStatement();
+            //specific to mysql
+            resultSet = statement.executeQuery("SELECT LAST_INSERT_ID()");
+
+            if (resultSet.next()) {
+                Long savedId = resultSet.getLong(1);
+                return this.getById(savedId);
+            }
+
+            statement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                closeAll(resultSet, ps, connection);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return null;
+    }
+```

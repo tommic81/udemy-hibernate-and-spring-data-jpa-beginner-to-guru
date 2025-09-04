@@ -23,6 +23,15 @@ public class AuthorDaoIntegrationTest {
     AuthorDao authorDao;
 
     @Test
+    void testSaveAuthor() {
+        Author author = new Author();
+        author.setFirstName("John");
+        author.setLastName("Thompson");
+        Author saved = authorDao.saveNewAuthor(author);
+
+        assertThat(saved).isNotNull();
+    }
+    @Test
     void testGetAuthorByName() {
         Author author = authorDao.findAuthorByName("Craig", "Walls");
 

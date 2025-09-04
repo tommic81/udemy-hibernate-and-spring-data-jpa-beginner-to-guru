@@ -4,10 +4,7 @@ import guru.springframework.jdbc.domain.Author;
 import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 @Component
 public class AuthorDaoImpl implements AuthorDao {
@@ -61,6 +58,43 @@ public class AuthorDaoImpl implements AuthorDao {
             if (resultSet.next()) {
                 return getAuthorFromRS(resultSet);
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                closeAll(resultSet, ps, connection);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return null;
+    }
+
+    @Override
+    public Author saveNewAuthor(Author author) {
+        Connection connection = null;
+        PreparedStatement ps = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = source.getConnection();
+            ps = connection.prepareStatement("INSERT INTO author (first_name, last_name) values (?, ?)");
+            ps.setString(1, author.getFirstName());
+            ps.setString(2, author.getLastName());
+            ps.execute();
+
+            Statement statement = connection.createStatement();
+            //specific to my session
+            //works only on MySQL!!!
+            resultSet = statement.executeQuery("SELECT LAST_INSERT_ID()");
+
+            if (resultSet.next()) {
+                Long savedId = resultSet.getLong(1);
+                return this.getById(savedId);
+            }
+
+            statement.close();
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
