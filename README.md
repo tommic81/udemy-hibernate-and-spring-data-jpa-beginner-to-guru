@@ -792,3 +792,12 @@ ps = connection.prepareStatement("SELECT * FROM author where id = ?");
         return null;
     }
 ```
+### Update Author
+```java
+	connection = source.getConnection();
+	ps = connection.prepareStatement("UPDATE author set first_name = ?, last_name = ? where author.id = ?");
+	ps.setString(1, author.getFirstName());
+	ps.setString(2, author.getLastName());
+	ps.setLong(3, author.getId());
+	ps.execute();
+```
