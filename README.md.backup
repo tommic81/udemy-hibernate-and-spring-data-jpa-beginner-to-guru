@@ -793,11 +793,18 @@ ps = connection.prepareStatement("SELECT * FROM author where id = ?");
     }
 ```
 ### Update Author
+```java
+	connection = source.getConnection();
+	ps = connection.prepareStatement("UPDATE author set first_name = ?, last_name = ? where author.id = ?");
+	ps.setString(1, author.getFirstName());
+	ps.setString(2, author.getLastName());
+	ps.setLong(3, author.getId());
+	ps.execute();
 ```
-connection = source.getConnection();
-ps = connection.prepareStatement("UPDATE author set first_name = ?, last_name = ? where author.id = ?");
-ps.setString(1, author.getFirstName());
-ps.setString(2, author.getLastName());
-ps.setLong(3, author.getId());
+### Delete Author
+```
+         connection = source.getConnection();
+            ps = connection.prepareStatement("DELETE from author where id = ?");
+            ps.setLong(1, id);
             ps.execute();
 ```
