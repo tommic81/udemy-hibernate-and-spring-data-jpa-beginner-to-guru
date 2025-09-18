@@ -803,8 +803,9 @@ ps = connection.prepareStatement("SELECT * FROM author where id = ?");
 ```
 ### Delete Author
 ```
-         connection = source.getConnection();
-            ps = connection.prepareStatement("DELETE from author where id = ?");
-            ps.setLong(1, id);
-            ps.execute();
+	connection = source.getConnection();
+    ps = connection.prepareStatement("DELETE from author where id = ?");
+    ps.setLong(1, id);
+    ps.execute();
 ```
+### 
