@@ -808,4 +808,4 @@ ps = connection.prepareStatement("SELECT * FROM author where id = ?");
     ps.setLong(1, id);
     ps.execute();
 ```
-### 
+### Refactor Author is to Author
