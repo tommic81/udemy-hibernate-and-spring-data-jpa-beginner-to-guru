@@ -808,3 +808,17 @@ ps = connection.prepareStatement("SELECT * FROM author where id = ?");
     ps.setLong(1, id);
     ps.execute();
 ```
+## Spring JDBC Template
+### Row Mapper
+```java
+public class AuthorMapper implements RowMapper<Author> {
+    @Override
+    public Author mapRow(ResultSet rs, int rowNum) throws SQLException {
+        Author author = new Author();
+        author.setId(rs.getLong("id"));
+        author.setFirstName(rs.getString("first_name"));
+        author.setLastName(rs.getString("last_name"));
+        return author;
+    }
+}
+```
