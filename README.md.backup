@@ -901,3 +901,21 @@ the database.
 - Second Level Cache - Disabled by default. JVM or cluster level cache
   - Recommend to enable on a per entity basis
   - Broad support for popular options such as jCache, Ehcache, and Infinispan
+- Problems:
+  - Hibernate would add 100,000 objects to session level cache, possible out of memory
+  - Long running transaction could deplete transaction pool
+  - JDBC Batching not enabled by default, each insert is a round trip to the DB.
+  - flush() and clear() methods can be used to clear session cache
+  
+### Get Author By ID
+```
+//AuthorDaoImpl
+@Override
+public Author getById(Long id) {
+  return getEntityManager().find(Author.class, id);
+    }
+    
+private EntityManager getEntityManager() {
+        return emf.createEntityManager();
+    }    
+```

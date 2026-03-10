@@ -906,3 +906,16 @@ the database.
   - Long running transaction could deplete transaction pool
   - JDBC Batching not enabled by default, each insert is a round trip to the DB.
   - flush() and clear() methods can be used to clear session cache
+  
+### Get Author By ID
+```
+//AuthorDaoImpl
+@Override
+public Author getById(Long id) {
+  return getEntityManager().find(Author.class, id);
+}
+    
+private EntityManager getEntityManager() {
+        return emf.createEntityManager();
+}    
+```
