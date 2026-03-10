@@ -810,7 +810,7 @@ ps = connection.prepareStatement("SELECT * FROM author where id = ?");
 ```
 ## Spring JDBC Template
 ### Row Mapper
-```
+```java
 public class AuthorMapper implements RowMapper<Author> {
     @Override
     public Author mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -821,4 +821,42 @@ public class AuthorMapper implements RowMapper<Author> {
         return author;
     }
 }
+```
+
+### Get Author By Id
+```java
+@Override
+public Author getById(Long id) {
+  return jdbcTemplate.queryForObject("SELECT * FROM author where id = ?", getRowMapper(), id);
+}
+
+```
+### Save new Author
+```java
+@Override
+public Author saveNewAuthor(Author author) {
+	jdbcTemplate.update("INSERT INTO author (first_name, last_name) VALUES (?, ?)",
+    author.getFirstName(), author.getLastName());
+
+    Long createdId = jdbcTemplate.queryForObject("SELECT LAST_INSERT_ID()", Long.class);
+
+    return this.getById(createdId);
+}
+```
+### Update Author
+```java
+@Override
+public Author updateAuthor(Author author) {
+  jdbcTemplate.update("UPDATE author SET first_name = ?, last_name = ? WHERE id = ?",
+    author.getFirstName(), author.getLastName(), author.getId());
+
+  return this.getById(author.getId());
+}
+```
+### Delete Author
+```
+ @Override
+ public void deleteAuthorById(Long id) {
+   jdbcTemplate.update("DELETE FROM author WHERE id = ?", id);
+ }
 ```
