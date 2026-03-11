@@ -961,3 +961,15 @@ public Author findAuthorByName(String firstName, String lastName) {
         return em.find(Author.class, author.getId());
     }
 ```
+### Delete an Author
+```
+   @Override
+    public void deleteAuthorById(Long id) {
+        EntityManager em = getEntityManager();
+        em.getTransaction().begin();
+        Author author = em.find(Author.class, id);
+        em.remove(author);
+        em.flush();
+        em.getTransaction().commit();
+    }
+```

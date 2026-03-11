@@ -947,4 +947,18 @@ public Author findAuthorByName(String firstName, String lastName) {
         return author;
     }
 ```
-### 
+### Update an Author
+```
+    @Override
+    public Author updateAuthor(Author author) {
+        EntityManager em = getEntityManager();
+        em.joinTransaction();
+        em.merge(author);
+        //forcing hibernate to send changes to a DB
+        em.flush(); 
+        //clearing a cache
+        em.clear();
+        return em.find(Author.class, author.getId());
+    }
+```
+### Dele
