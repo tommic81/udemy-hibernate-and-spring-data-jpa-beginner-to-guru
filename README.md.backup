@@ -933,3 +933,18 @@ public Author findAuthorByName(String firstName, String lastName) {
   return query.getSingleResult();
 }
 ```
+### Save a new Author
+```
+ @Override
+    public Author saveNewAuthor(Author author) {
+        EntityManager em = getEntityManager();
+        //added due to lazy transaction
+        em.getTransaction().begin();
+        em.persist(author);
+        em.flush();
+        em.getTransaction().commit();
+
+        return author;
+    }
+```
+### 
