@@ -919,3 +919,31 @@ private EntityManager getEntityManager() {
         return emf.createEntityManager();
 }    
 ```
+### Find Author By Name
+```java
+//AuthorDaoImpl
+@Override
+public Author findAuthorByName(String firstName, String lastName) {
+  TypedQuery<Author> query = getEntityManager().createQuery("SELECT a FROM Author a " +
+                "WHERE a.firstName = :first_name and a.lastName = :last_name", Author.class);
+
+  query.setParameter("first_name", firstName);
+  query.setParameter("last_name", lastName);
+
+  return query.getSingleResult();
+}
+```
+### Save a new Author
+```
+ @Override
+    public Author saveNewAuthor(Author author) {
+        EntityManager em = getEntityManager();
+        //added due to lazy transaction
+        em.getTransaction().begin();
+        em.persist(author);
+        em.flush();
+        em.getTransaction().commit();
+
+        return author;
+    }
+```
