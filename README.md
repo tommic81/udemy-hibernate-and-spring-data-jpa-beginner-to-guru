@@ -973,3 +973,5 @@ public Author findAuthorByName(String firstName, String lastName) {
         em.getTransaction().commit();
     }
 ```
+## Spring Data JPA Queries
+- [Spring Data JPA](https://docs.spring.io/spring-data/jpa/reference/#repositories.query-methods.query-creation)
