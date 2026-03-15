@@ -1020,3 +1020,8 @@ public Author findAuthorByName(String firstName, String lastName) {
         return authorRepository.findAuthorByFirstNameAndLastName(firstName, lastName);
     }
 ```
+
+### Optional Return Type
+```
+ Optional<Author> findAuthorByFirstNameAndLastName(String firstName, String lastName);
+```
