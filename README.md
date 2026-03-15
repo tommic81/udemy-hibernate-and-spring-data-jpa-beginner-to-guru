@@ -1007,3 +1007,16 @@ public Author findAuthorByName(String firstName, String lastName) {
         authorRepository.deleteById(id);
     }
 ```
+
+### Query Methods
+```java
+ @Override
+    public Author getById(Long id) {
+        return authorRepository.getById(id);
+    }
+
+    @Override
+    public Author findAuthorByName(String firstName, String lastName) {
+        return authorRepository.findAuthorByFirstNameAndLastName(firstName, lastName);
+    }
+```

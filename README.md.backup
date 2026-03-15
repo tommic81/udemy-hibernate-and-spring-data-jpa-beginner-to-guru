@@ -976,6 +976,36 @@ public Author findAuthorByName(String firstName, String lastName) {
 ## Spring Data JPA Queries
 - [Spring Data JPA](https://docs.spring.io/spring-data/jpa/reference/#repositories.query-methods.query-creation)
 ### Author CRUD Operations
+```java
+    private final AuthorRepository authorRepository;
+
+    public AuthorDaoImpl(AuthorRepository authorRepository) {
+        this.authorRepository = authorRepository;
+    }
+
+    @Override
+    public Author getById(Long id) {
+        return authorRepository.getById(id);
+    }
+
+    @Override
+    public Author saveNewAuthor(Author author) {
+        return authorRepository.save(author);
+    }
+
+    @Transactional
+    @Override
+    public Author updateAuthor(Author author) {
+        Author foundAuthor = authorRepository.getById(author.getId());
+        foundAuthor.setFirstName(author.getFirstName());
+        foundAuthor.setLastName(author.getLastName());
+        return authorRepository.save(foundAuthor);
+    }
+
+    @Override
+    public void deleteAuthorById(Long id) {
+        authorRepository.deleteById(id);
+    }
 ```
 
-```
+### Query Methods
