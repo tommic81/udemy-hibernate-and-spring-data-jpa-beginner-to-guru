@@ -1025,3 +1025,17 @@ public Author findAuthorByName(String firstName, String lastName) {
 ```
  Optional<Author> findAuthorByFirstNameAndLastName(String firstName, String lastName);
 ```
+### Null handling
+- [Nullability](https://docs.spring.io/spring-data/jpa/reference/#repositories.nullability)
+
+```java
+    Book readByTitle(String title);
+    
+    @Nullable
+    Book getByTitle(@Nullable String title);
+```
+- Add file package-info.java to keep other methods (without `@Nullable` working)
+```
+@org.springframework.lang.NonNullApi
+package guru.springframework.jdbc.repositories;
+```
