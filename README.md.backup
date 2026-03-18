@@ -1059,3 +1059,8 @@ Stream<Book> findAllByTitleNotNull();
   Book findBookByTitleWithQueryNamed(@Param("title")  String title);
 ```
 ## Native SQL Queries
+```
+  @Query(value = "SELECT * FROM book where title = :title", nativeQuery = true)
+  Book findBookByTitleNativeQuery(@Param("title") String title);
+```
+## JPA Named Queries
