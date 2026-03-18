@@ -1048,3 +1048,8 @@ Stream<Book> findAllByTitleNotNull();
   @Async
   Future<Book> queryByTitle(String title);
 ```
+## Declaring queries using @Query
+```
+  @Query("SELECT b FROM Book b where b.title =?1")
+  Book findBookByTitleWithQuery(String title);
+```

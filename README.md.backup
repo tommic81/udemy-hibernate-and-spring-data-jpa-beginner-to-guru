@@ -1044,3 +1044,12 @@ package guru.springframework.jdbc.repositories;
 Stream<Book> findAllByTitleNotNull();
 ```
 ## Asynchronous Query Results
+```
+  @Async
+  Future<Book> queryByTitle(String title);
+```
+## Declaring queries using @Query
+```
+  @Query("SELECT b FROM Book b where b.title =?1")
+  Book findBookByTitleWithQuery(String title);
+```
