@@ -1040,3 +1040,7 @@ public Author findAuthorByName(String firstName, String lastName) {
 package guru.springframework.jdbc.repositories;
 ```
 ### Stream Query Results
+```
+Stream<Book> findAllByTitleNotNull();
+```
+## Asynchronous Query Results

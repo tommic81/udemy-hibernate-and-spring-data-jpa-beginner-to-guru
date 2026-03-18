@@ -1043,3 +1043,8 @@ package guru.springframework.jdbc.repositories;
 ```
 Stream<Book> findAllByTitleNotNull();
 ```
+## Asynchronous Query Results
+```
+  @Async
+  Future<Book> queryByTitle(String title);
+```
