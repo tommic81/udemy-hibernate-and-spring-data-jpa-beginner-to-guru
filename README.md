@@ -1053,3 +1053,8 @@ Stream<Book> findAllByTitleNotNull();
   @Query("SELECT b FROM Book b where b.title =?1")
   Book findBookByTitleWithQuery(String title);
 ```
+## Named Parameters with @Query
+```
+  @Query("SELECT b FROM Book b where b.title = :title")
+  Book findBookByTitleWithQueryNamed(@Param("title")  String title);
+```
