@@ -1058,3 +1058,8 @@ Stream<Book> findAllByTitleNotNull();
   @Query("SELECT b FROM Book b where b.title = :title")
   Book findBookByTitleWithQueryNamed(@Param("title")  String title);
 ```
+## Native SQL Queries
+```
+  @Query(value = "SELECT * FROM book where title = :title", nativeQuery = true)
+  Book findBookByTitleNativeQuery(@Param("title") String title);
+```

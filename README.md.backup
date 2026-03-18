@@ -1056,5 +1056,6 @@ Stream<Book> findAllByTitleNotNull();
 ## Named Parameters with @Query
 ```
   @Query("SELECT b FROM Book b where b.title = :title")
-  Book findBookByTitleWithQueryNamed(@Param("title") String title);
+  Book findBookByTitleWithQueryNamed(@Param("title")  String title);
 ```
+## Native SQL Queries
