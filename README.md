@@ -973,3 +973,130 @@ public Author findAuthorByName(String firstName, String lastName) {
         em.getTransaction().commit();
     }
 ```
+## Hibernate Queries
+### Query
+```
+    public AuthorDaoImpl(EntityManagerFactory emf) {
+        this.emf = emf;
+    }
+
+    @Override
+    public List<Author> listAuthorByLastNameLike(String lastName) {
+        EntityManager em = getEntityManager();
+        try {
+
+            Query query = em.createQuery("SELECT a from Author a where a.lastName like :last_name");
+            query.setParameter("last_name", lastName + "%");
+            List<Author> authors = query.getResultList();
+            return authors;
+
+        } finally {
+            em.close();
+        }
+    }
+```
+
+
+## Spring Data JPA Queries
+- [Spring Data JPA](https://docs.spring.io/spring-data/jpa/reference/#repositories.query-methods.query-creation)
+### Author CRUD Operations
+```java
+    private final AuthorRepository authorRepository;
+
+    public AuthorDaoImpl(AuthorRepository authorRepository) {
+        this.authorRepository = authorRepository;
+    }
+
+    @Override
+    public Author getById(Long id) {
+        return authorRepository.getById(id);
+    }
+
+    @Override
+    public Author saveNewAuthor(Author author) {
+        return authorRepository.save(author);
+    }
+
+    @Transactional
+    @Override
+    public Author updateAuthor(Author author) {
+        Author foundAuthor = authorRepository.getById(author.getId());
+        foundAuthor.setFirstName(author.getFirstName());
+        foundAuthor.setLastName(author.getLastName());
+        return authorRepository.save(foundAuthor);
+    }
+
+    @Override
+    public void deleteAuthorById(Long id) {
+        authorRepository.deleteById(id);
+    }
+```
+
+### Query Methods
+```java
+ @Override
+    public Author getById(Long id) {
+        return authorRepository.getById(id);
+    }
+
+    @Override
+    public Author findAuthorByName(String firstName, String lastName) {
+        return authorRepository.findAuthorByFirstNameAndLastName(firstName, lastName);
+    }
+```
+
+### Optional Return Type
+```
+ Optional<Author> findAuthorByFirstNameAndLastName(String firstName, String lastName);
+```
+### Null handling
+- [Nullability](https://docs.spring.io/spring-data/jpa/reference/#repositories.nullability)
+
+```java
+    Book readByTitle(String title);
+    
+    @Nullable
+    Book getByTitle(@Nullable String title);
+```
+- Add file package-info.java to keep other methods (without `@Nullable` working)
+```
+@org.springframework.lang.NonNullApi
+package guru.springframework.jdbc.repositories;
+```
+### Stream Query Results
+```
+Stream<Book> findAllByTitleNotNull();
+```
+## Asynchronous Query Results
+```
+  @Async
+  Future<Book> queryByTitle(String title);
+```
+## Declaring queries using @Query
+```
+  @Query("SELECT b FROM Book b where b.title =?1")
+  Book findBookByTitleWithQuery(String title);
+```
+## Named Parameters with @Query
+```
+  @Query("SELECT b FROM Book b where b.title = :title")
+  Book findBookByTitleWithQueryNamed(@Param("title")  String title);
+```
+## Native SQL Queries
+```
+  @Query(value = "SELECT * FROM book where title = :title", nativeQuery = true)
+  Book findBookByTitleNativeQuery(@Param("title") String title);
+```
+## JPA Named Queries
+- Entity
+```
+@NamedQuery(name = "Book.jpaNamed", query = "FROM Book b where b.title = :title")
+@Entity
+public class Book {}
+
+```
+- Repository
+
+```
+Book jpaNamed(@Param("title") String title);
+```
