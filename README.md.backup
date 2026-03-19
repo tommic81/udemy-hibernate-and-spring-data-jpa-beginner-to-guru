@@ -975,6 +975,29 @@ public Author findAuthorByName(String firstName, String lastName) {
 ```
 ## Hibernate Queries
 ### Query
+```
+    public AuthorDaoImpl(EntityManagerFactory emf) {
+        this.emf = emf;
+    }
+
+    @Override
+    public List<Author> listAuthorByLastNameLike(String lastName) {
+        EntityManager em = getEntityManager();
+        try {
+
+            Query query = em.createQuery("SELECT a from Author a where a.lastName like :last_name");
+            query.setParameter("last_name", lastName + "%");
+            List<Author> authors = query.getResultList();
+            return authors;
+
+        } finally {
+            em.close();
+        }
+    }
+```
+
+### Typed Query
+
 
 
 ## Spring Data JPA Queries
