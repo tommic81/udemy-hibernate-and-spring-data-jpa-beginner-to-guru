@@ -1016,14 +1016,14 @@ public Author findAuthorByName(String firstName, String lastName) {
 
 ### Named Query
 - For standarized queries
-- Declaratrion in an entity
+- Declaration in an entity
 
-```
+```java
 @NamedQuery(name = "author_find_all", query = "FROM Author")
 @Entity
 public class Author {}
 ```
-- Usage:
+- Usage
 ```java
   @Override
     public List<Author> findAll() {
@@ -1037,6 +1037,31 @@ public class Author {}
     }
 ```
 
+### Named Query With Parameters
+- Declaratrion in an entity
+```
+@NamedQueries({
+        @NamedQuery(name = "author_find_all", query = "FROM Author"),
+        @NamedQuery(name = "find_by_name", query = "FROM Author a WHERE a.firstName = :first_name and a.lastName = :last_name")
+})
+@Entity
+public class Author {]
+```
+- Usage
+```
+  @Override
+    public Author findAuthorByName(String firstName, String lastName) {
+        EntityManager em = getEntityManager();
+
+        TypedQuery<Author> query = em.createNamedQuery("find_by_name",Author.class);
+        query.setParameter("first_name", firstName);
+        query.setParameter("last_name", lastName);
+
+        Author auth = query.getSingleResult();
+        em.close();
+        return auth;
+ }
+```
 
 ## Spring Data JPA Queries
 - [Spring Data JPA](https://docs.spring.io/spring-data/jpa/reference/#repositories.query-methods.query-creation)
