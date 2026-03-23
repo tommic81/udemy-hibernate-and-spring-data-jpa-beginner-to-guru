@@ -6,12 +6,25 @@ import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.TypedQuery;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class BookDaoImpl implements BookDao {
     private final EntityManagerFactory emf;
 
     public BookDaoImpl(EntityManagerFactory emf) {
         this.emf = emf;
+    }
+
+    @Override
+    public List<Book> findAll() {
+        EntityManager em = getEntityManager();
+        try {
+            TypedQuery<Book> typedQuery = em.createNamedQuery("book_find_all", Book.class);
+            return typedQuery.getResultList();
+        } finally {
+            em.close();
+        }
     }
 
     @Override
@@ -31,14 +44,19 @@ public class BookDaoImpl implements BookDao {
     @Override
     public Book findBookByTitle(String bookTitle) {
         EntityManager em = getEntityManager();
-        TypedQuery<Book> query = em.createQuery("SELECT b FROM Book b " +
-                "WHERE b.title = :title", Book.class);
+        try {
+        /*TypedQuery<Book> query = em.createQuery("SELECT b FROM Book b " +
+                "WHERE b.title = :title", Book.class);*/
 
-        query.setParameter("title", bookTitle);
+            TypedQuery<Book> query = em.createNamedQuery("find_by_title", Book.class);
+            query.setParameter("title", bookTitle);
 
-        Book b = query.getSingleResult();
-        em.close();
-        return b;
+            Book b = query.getSingleResult();
+
+            return b;
+        } finally {
+            em.close();
+        }
     }
 
     @Override
