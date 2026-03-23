@@ -32,7 +32,13 @@ public class DaoIntegrationTest {
     @Autowired
     BookDao bookDao;
 
+    @Test
+    void testFindAllAuthors() {
+        List<Author> authors = authorDao.findAll();
 
+        assertThat(authors).isNotNull();
+        assertThat(authors.size()).isGreaterThan(0);
+    }
     @Test
     void testFindBookByISBN() {
         Book book = new Book();

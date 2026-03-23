@@ -22,6 +22,17 @@ public class AuthorDaoImpl implements AuthorDao {
     }
 
     @Override
+    public List<Author> findAll() {
+        EntityManager em = getEntityManager();
+        try {
+            TypedQuery<Author> typedQuery = em.createNamedQuery("author_find_all", Author.class);
+            return typedQuery.getResultList();
+        } finally {
+            em.close();
+        }
+    }
+
+    @Override
     public List<Author> listAuthorByLastNameLike(String lastName) {
         EntityManager em = getEntityManager();
         try {
@@ -38,7 +49,7 @@ public class AuthorDaoImpl implements AuthorDao {
 
     @Override
     public Author getById(Long id) {
-        EntityManager em  = getEntityManager();
+        EntityManager em = getEntityManager();
         Author auth = em.find(Author.class, id);
         em.close();
         return auth;
@@ -46,7 +57,7 @@ public class AuthorDaoImpl implements AuthorDao {
 
     @Override
     public Author findAuthorByName(String firstName, String lastName) {
-        EntityManager em  = getEntityManager();
+        EntityManager em = getEntityManager();
 
         TypedQuery<Author> query = em.createQuery("SELECT a FROM Author a " +
                 "WHERE a.firstName = :first_name and a.lastName = :last_name", Author.class);
