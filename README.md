@@ -973,8 +973,143 @@ public Author findAuthorByName(String firstName, String lastName) {
         em.getTransaction().commit();
     }
 ```
+## Hibernate Queries
+### Query
+```
+    public AuthorDaoImpl(EntityManagerFactory emf) {
+        this.emf = emf;
+    }
+
+    @Override
+    public List<Author> listAuthorByLastNameLike(String lastName) {
+        EntityManager em = getEntityManager();
+        try {
+
+            Query query = em.createQuery("SELECT a from Author a where a.lastName like :last_name");
+            query.setParameter("last_name", lastName + "%");
+            List<Author> authors = query.getResultList();
+            return authors;
+
+        } finally {
+            em.close();
+        }
+    }
+```
+
+### Typed Query
+```
+   @Override
+    public Book findByISBN(String isbn) {
+        EntityManager em = getEntityManager();
+        try{
+            TypedQuery<Book> query = em.createQuery("SELECT b FROM Book b WHERE b.isbn = :isbn", Book.class);
+            query.setParameter("isbn", isbn);
+
+            Book book = query.getSingleResult();
+            return book;
+        } finally {
+            em.close();
+        }
+    }
+```
+
+
+### Named Query
+- For standarized queries
+- Declaration in an entity
+
+```java
+@NamedQuery(name = "author_find_all", query = "FROM Author")
+@Entity
+public class Author {}
+```
+- Usage
+```java
+  @Override
+    public List<Author> findAll() {
+        EntityManager em = getEntityManager();
+        try {
+            TypedQuery<Author> typedQuery = em.createNamedQuery("author_find_all", Author.class);
+            return typedQuery.getResultList();
+        } finally {
+            em.close();
+        }
+    }
+```
+
+### Named Query With Parameters
+- Declaratrion in an entity
+```
+@NamedQueries({
+        @NamedQuery(name = "author_find_all", query = "FROM Author"),
+        @NamedQuery(name = "find_by_name", query = "FROM Author a WHERE a.firstName = :first_name and a.lastName = :last_name")
+})
+@Entity
+public class Author {]
+```
+- Usage
+```
+  @Override
+    public Author findAuthorByName(String firstName, String lastName) {
+        EntityManager em = getEntityManager();
+
+        TypedQuery<Author> query = em.createNamedQuery("find_by_name",Author.class);
+        query.setParameter("first_name", firstName);
+        query.setParameter("last_name", lastName);
+
+        Author auth = query.getSingleResult();
+        em.close();
+        return auth;
+ }
+```
+### Criteria Query
+```
+  EntityManager em = getEntityManager();
+
+        try {
+            CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
+            CriteriaQuery<Author> criteriaQuery = criteriaBuilder.createQuery(Author.class);
+            Root<Author> root = criteriaQuery.from(Author.class);
+
+            ParameterExpression<String> firstNameParam = criteriaBuilder.parameter(String.class);
+            ParameterExpression<String> lastNameParam = criteriaBuilder.parameter(String.class);
+
+            Predicate firstNamePred = criteriaBuilder.equal(root.get("firstName"), firstNameParam);
+            Predicate lastNamePred = criteriaBuilder.equal(root.get("lastName"), lastNameParam);
+
+            criteriaQuery.select(root).where(criteriaBuilder.and(firstNamePred, lastNamePred));
+
+            TypedQuery<Author> typedQuery = em.createQuery(criteriaQuery);
+            typedQuery.setParameter(firstNameParam, firstName);
+            typedQuery.setParameter(lastNameParam, lastName);
+            return typedQuery.getSingleResult();
+        }finally {
+            em.close();
+        }
+```
+
+### Native SQL Queries
+```java
+ public Author findAuthorByNameNative(String firstName, String lastName) {
+        EntityManager em = getEntityManager();
+
+        try {
+            Query query = em.createNativeQuery("SELECT * FROM author a WHERE a.first_name = ? and a.last_name = ?", Author.class);
+
+            query.setParameter(1, firstName);
+            query.setParameter(2, lastName);
+            return (Author) query.getSingleResult();
+
+        } finally {
+            em.close();
+        }
+    }
+```
+
+
 ## Spring Data JPA Queries
 - [Spring Data JPA](https://docs.spring.io/spring-data/jpa/reference/#repositories.query-methods.query-creation)
+
 ### Author CRUD Operations
 ```java
     private final AuthorRepository authorRepository;
@@ -1074,5 +1209,27 @@ public class Book {}
 - Repository
 
 ```
-
+Book jpaNamed(@Param("title") String title);
 ```
+## Paging and Sorting
+- Paging - Is a way to get a ‘page’ of data from a long list of values
+  - For example, page three of 100 records
+  - Common on websites search results or catalogs
+- Sorting - How the data is ordered
+  - Can be natural (order came out of database)
+  - Or by one or more columns
+  
+- SQL Paging - Uses SQL clauses of limit and offset
+  - Limit - Limits the number of rows returned
+  - Offset - Number of rows to skip over
+Example 30 records, 10 per page
+ - Page 1 - Limit 10, Offset 0
+ - Page 2 - Limit 10, Offset 10
+ - Page 3 - Limit 10, Offset 20
+ 
+- SQL Sorting - Uses SQL order by clause
+  - ASC - (default) Ascending Order
+  - Desc - Descending  
+  - Physical Order - When no sort clause is provided. Whatever order the records are stored
+in the database.
+  - Often will return rows in the same order, BUT this is not guaranteed
