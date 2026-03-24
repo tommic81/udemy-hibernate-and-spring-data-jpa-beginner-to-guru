@@ -8,7 +8,9 @@ public interface BookDao {
 
     List<Book> findAll();
     Book findByISBN(String isbn);
-    Book findBookByTitle(String cleanCode);
+    Book findBookByTitle(String title);
+
+    Book  findBookByTitleCriteria(String title);
 
     Book getById(long l);
 
