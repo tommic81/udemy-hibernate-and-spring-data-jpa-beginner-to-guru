@@ -1088,6 +1088,25 @@ public class Author {]
         }
 ```
 
+### Native SQL Queries
+```java
+ public Author findAuthorByNameNative(String firstName, String lastName) {
+        EntityManager em = getEntityManager();
+
+        try {
+            Query query = em.createNativeQuery("SELECT * FROM author a WHERE a.first_name = ? and a.last_name = ?", Author.class);
+
+            query.setParameter(1, firstName);
+            query.setParameter(2, lastName);
+            return (Author) query.getSingleResult();
+
+        } finally {
+            em.close();
+        }
+    }
+```
+
+
 ## Spring Data JPA Queries
 - [Spring Data JPA](https://docs.spring.io/spring-data/jpa/reference/#repositories.query-methods.query-creation)
 

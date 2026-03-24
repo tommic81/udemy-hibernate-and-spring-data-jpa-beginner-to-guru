@@ -63,7 +63,7 @@ public class AuthorDaoImpl implements AuthorDao {
     /*    TypedQuery<Author> query = em.createQuery("SELECT a FROM Author a " +
                 "WHERE a.firstName = :first_name and a.lastName = :last_name", Author.class);*/
 
-        TypedQuery<Author> query = em.createNamedQuery("find_by_name",Author.class);
+        TypedQuery<Author> query = em.createNamedQuery("find_by_name", Author.class);
         query.setParameter("first_name", firstName);
         query.setParameter("last_name", lastName);
 
@@ -130,10 +130,26 @@ public class AuthorDaoImpl implements AuthorDao {
             typedQuery.setParameter(firstNameParam, firstName);
             typedQuery.setParameter(lastNameParam, lastName);
             return typedQuery.getSingleResult();
-        }finally {
+        } finally {
             em.close();
         }
 
+    }
+
+    @Override
+    public Author findAuthorByNameNative(String firstName, String lastName) {
+        EntityManager em = getEntityManager();
+
+        try {
+            Query query = em.createNativeQuery("SELECT * FROM author a WHERE a.first_name = ? and a.last_name = ?", Author.class);
+
+            query.setParameter(1, firstName);
+            query.setParameter(2, lastName);
+            return (Author) query.getSingleResult();
+
+        } finally {
+            em.close();
+        }
     }
 
     private EntityManager getEntityManager() {
