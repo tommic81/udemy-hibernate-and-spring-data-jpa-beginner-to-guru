@@ -1233,3 +1233,21 @@ Example 30 records, 10 per page
   - Physical Order - When no sort clause is provided. Whatever order the records are stored
 in the database.
   - Often will return rows in the same order, BUT this is not guaranteed
+  
+### Find All Books with JDBCTemplate
+```java
+  @Override
+    public List<Book> findAllBooks() {
+        return jdbcTemplate.query("SELECT * FROM book", getBookMapper());
+    }
+```
+
+### Find All Books with Paging
+```java
+//BookDaoJDBCTemplate
+
+   @Override
+    public List<Book> findAllBooks(int pageSize, int offset) {
+        return jdbcTemplate.query("SELECT * FROM book limit ? offset ?", getBookMapper(), pageSize, offset);
+    }
+```

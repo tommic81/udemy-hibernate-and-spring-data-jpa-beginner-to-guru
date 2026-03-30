@@ -1227,9 +1227,19 @@ Example 30 records, 10 per page
  - Page 2 - Limit 10, Offset 10
  - Page 3 - Limit 10, Offset 20
  
-SQL Sorting - Uses SQL order by clause
-• ASC - (default) Ascending Order
-• Desc - Descending
-• Physical Order - When no sort clause is provided. Whatever order the records are stored
+- SQL Sorting - Uses SQL order by clause
+  - ASC - (default) Ascending Order
+  - Desc - Descending  
+  - Physical Order - When no sort clause is provided. Whatever order the records are stored
 in the database.
-• Often will return rows in the same order, BUT this is not guaranteed
+  - Often will return rows in the same order, BUT this is not guaranteed
+  
+### Find All Books with JDBCTemplate
+```java
+  @Override
+    public List<Book> findAllBooks() {
+        return jdbcTemplate.query("SELECT * FROM book", getBookMapper());
+    }
+```
+
+### Find All Books with Paging
