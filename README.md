@@ -1251,3 +1251,23 @@ in the database.
         return jdbcTemplate.query("SELECT * FROM book limit ? offset ?", getBookMapper(), pageSize, offset);
     }
 ```
+### Find All Books Using Pagable
+```java
+//BookDaoJDBCTemplate
+    @Override
+    public List<Book> findAllBooks(Pageable pageable) {
+        return jdbcTemplate.query("SELECT * FROM book limit ? offset ?", getBookMapper(), pageable.getPageSize(), pageable.getOffset());
+    }
+
+```
+
+### Find All Books Order By Title
+```java
+//BookDaoJDBCTemplate
+ @Override
+    public List<Book> findAllBooksSortByTitle(Pageable pageable) {
+        String sql = "SELECT * FROM book order by title " + pageable.getSort().getOrderFor("title").getDirection().name()
+                + " limit ? offset ?";
+        return jdbcTemplate.query(sql, getBookMapper(), pageable.getPageSize(), pageable.getOffset());
+    }
+```

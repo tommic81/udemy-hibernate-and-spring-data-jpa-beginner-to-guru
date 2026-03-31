@@ -19,6 +19,13 @@ public class BookDaoImpl implements BookDao {
     }
 
     @Override
+    public List<Book> findAllBooksSortByTitle(Pageable pageable) {
+        String sql = "SELECT * FROM book order by title " + pageable.getSort().getOrderFor("title")
+                + " limit ? offset ?";
+        return null;
+    }
+
+    @Override
     public List<Book> findAllBooks(Pageable pageable) {
         return null;
     }
