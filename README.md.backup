@@ -1263,11 +1263,30 @@ in the database.
 
 ### Find All Books Order By Title
 ```java
-
+//BookDaoJDBCTemplate
  @Override
     public List<Book> findAllBooksSortByTitle(Pageable pageable) {
         String sql = "SELECT * FROM book order by title " + pageable.getSort().getOrderFor("title").getDirection().name()
                 + " limit ? offset ?";
         return jdbcTemplate.query(sql, getBookMapper(), pageable.getPageSize(), pageable.getOffset());
     }
+```
+### Paging with Hibernate
+```java
+    @Override
+    public List<Book> findAllBooks(Pageable pageable) {
+
+        EntityManager em = getEntityManager();
+
+        try{
+            TypedQuery<Book> query = em.createQuery("SELECT b FROM Book b", Book.class);
+            query.setFirstResult(Math.toIntExact(pageable.getOffset()));
+            query.setMaxResults(pageable.getPageSize());
+            return query.getResultList();
+
+        }finally {
+            em.close();
+        }
+    }
+
 ```
